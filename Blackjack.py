@@ -34,7 +34,6 @@ def blackjack():
             for kleur in kleuren:
                 for getallen in getal:
 
-                    # kaart genereren
                     self.alle_kaarten.append(kaart(kleur, getallen))
 
         def __str__(self):
@@ -49,7 +48,7 @@ def blackjack():
             random.shuffle(self.alle_kaarten)
 
         def delen(self):
-            enkele_kaart = self.Deck.pop()
+            enkele_kaart = self.alle_kaarten.pop()
             return enkele_kaart
 
     # hand
@@ -61,10 +60,8 @@ def blackjack():
 
         def voeg_kaart_toe(self, kaart):
             self.kaart.append(kaart)
-            self.waarde += waarden[kaart.waarde]
-
-            # track ace
-            if kaart.waarden == 'Aas':
+            self.waarde += waarden[kaart.getallen]
+            if kaart.getallen == 'Aas':
                 self.aas += 1
 
         def aanpassing_voor_aas(self):
@@ -73,17 +70,6 @@ def blackjack():
             while self.waarde > 21 and self.aas:
                 self.waarde -= 10
                 self.aas -= 1
-
-    test_deck = Deck()
-    test_deck.schudden()
-
-    test_player = Hand()
-    pulled_card = test_deck.delen()
-    print(pulled_card)
-    test_player.voeg_kaart_toe(pulled_card)
-    print(test_player.waarde)
-
-    test_player.voeg_kaart_toe(test_deck.delen)
 
     # chips
 
@@ -99,19 +85,161 @@ def blackjack():
         def verlies_weddenschap(self):
             self.totaal -= self.wedden
 
-    # dealen van de startkaarten
+    def neem_weddenschap(chips):
 
-    # Verbergen van de gesloten kaart dealer
+        while True:
 
-    # tonen beide kaarten speler
+            try:
+                chips.weddenschap = int(input("Hoeveel euro wil je inzetten?"))
+            except:
+                print("Je moet wel een heel getal invoeren.")
+            else:
+                if chips.weddenschap > chips.totaal:
+                    print('Sorry, je hebt niet genoeg geld om in te zetten! Je hebt: {}'.format(
+                        chips.totaal))
+                else:
+                    break
 
-    # stoppen of doorgaan
+    # hit
+    def hit(deck, hand):
 
-    # als de speler niet doodgaat vragen om nog een kaart
+        enkele_kaart = deck.delen()
+        hand.voeg_kaart_toe(enkele_kaart)
+        hand.aanpassing_voor_aas()
 
-    # als een speler stopt, moet de dealer doorgaan tot minimaal 17
-    # winnaar bepalen en chips duidelijk verdelen
-    # vragen of je nog een keer wil
+    def hit_of_stoppen(deck, hand):
+        global spelen
+
+        while True:
+            x = input(
+                'Doorgaan of stoppen? Klik op h om door te gaan of s om te stoppen')
+
+            if x[0].lower() == 'h':
+                hit(deck, hand)
+
+            elif x[0].lower() == 's':
+                print('De speler stopt, het is de nu de dealers beurt.')
+                playing == False
+
+            else:
+                print('Sorry, je hebt geen correcte optie gekozen, probeer het opnieuw.')
+                continue
+            break
+
+    # Functie om kaarten te tonen
+
+    def laat_sommige_zien(dealer, speler):
+
+        print("\n Dealers hand:")
+        print("Eerste kaart is verborgen")
+        print(dealer.kaart[1])
+
+        # alle kaarten
+        print("\n Spelers hand:")
+        for kaart in speler.kaart:
+            print(kaart)
+
+    def laat_alles_zien(dealer, speler):
+
+        print("\n Dealers hand:")
+        for kaart in speler.kaart:
+            print(kaart)
+        print('Dealers hand: {dealer.waarde}')
+
+        print("\n Spelers hand:")
+        for kaart in speler.kaart:
+            print(kaart)
+        print('Spelers hand: {speler.waarde}')
+
+    # game scenarios
+
+    def speler_bust(speler, dealer, chips):
+        print('Speler bust')
+        chips.verlies_weddenschap()
+
+    def speler_wint(speler, dealer, chips):
+        print('Jij wint!')
+        chips.win_weddenschap()
+
+    def dealer_bust(speler, dealer, chips):
+        print('Jij wint, de dealer busted!')
+        chips.win_weddenschap()
+
+    def dealer_wint(speler, dealer, chips):
+        print('Dealer wint')
+        chips.verlies_weddenschap()
+
+    def push(speler, dealer):
+        print('Het is een gelijkspel, dus een Push. Je krijgt je inzet terug.')
+
+    while True:
+        print('Welkom bij Blackjack')
+
+        # hand
+        deck = Deck()
+        deck.schudden()
+
+        speler_hand = Hand()
+        speler_hand.voeg_kaart_toe(deck.delen())
+        speler_hand.voeg_kaart_toe(deck.delen())
+
+        dealer_hand = Hand()
+        dealer_hand.voeg_kaart_toe(deck.delen())
+        dealer_hand.voeg_kaart_toe(deck.delen())
+
+        # chips
+        spelers_chips = Chips()
+
+        # weddenschap
+        neem_weddenschap(spelers_chips)
+
+        # kaarten zien
+        laat_sommige_zien(speler_hand, dealer_hand)
+
+        while playing:
+
+            hit_of_stoppen(deck, speler_hand)
+
+            # show cards
+            laat_sommige_zien(speler_hand, dealer_hand)
+
+            # bust speler
+            if speler_hand.waarde > 21:
+                speler_bust(speler_hand, dealer_hand, spelers_chips)
+
+                break
+
+        # speler bust niet, dealer speelt
+
+        if speler_hand.waarde <= 21:
+            while dealer_hand.waarde < 17:
+                hit(deck, dealer_hand)
+
+            # show alle kaarten dealer
+            laat_alles_zien(speler_hand, dealer_hand)
+
+            # verschillende winnen scenarios
+            if dealer_hand.waarde > 21:
+                dealer_bust(speler_hand, dealer_hand, spelers_chips)
+            elif dealer_hand.waarde > speler_hand.waarde:
+                dealer_wint(speler_hand, dealer_hand, spelers_chips)
+            elif dealer_hand.waarde < speler_hand.waarde:
+                speler_wint(speler_hand, dealer_hand, spelers_chips)
+            else:
+                push(speler_hand, dealer_hand)
+
+                # informeren nieuwe chips
+
+                print('\n Je chipaantal is: {}'.format(spelers_chips.totaal))
+
+                nieuw_spel = input('Wil je nog een keer spelen?')
+
+                if nieuw_spel[0].lower() == 'ja':
+                    playing = True
+                    continue
+                else:
+                    ("Bedankt voor het spelen!")
+                    break
 
 
 blackjack()
