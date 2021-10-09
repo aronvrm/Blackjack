@@ -4,17 +4,6 @@ def blackjack():
     import random
     from random import shuffle
 
-    class kaart():
-
-        def __init__(self, kleur, getallen):
-            self.kleur = kleur
-            self.getallen = getallen
-
-        def __str__(self):
-            return self.getallen + " van " + self.kleur
-
-    # dek kaarten
-
     kleuren = ('Harten', 'Ruiten', 'Klaver', 'Schoppen')
 
     getal = ('Twee', 'Drie', 'Vier', 'Vijf', 'Zes', 'Zeven',
@@ -25,16 +14,25 @@ def blackjack():
 
     playing = True
 
+    class Kaart:
+
+        def __init__(self, kleur, getallen):
+            self.kleur = kleur
+            self.getallen = getallen
+
+        def __str__(self):
+            return self.getallen + " van " + self.kleur
+
+    # dek kaarten
+
     class Deck:
 
         def __init__(self):
-
-            self.alle_kaarten = []  # empty list
-
+            self.deck = []  # empty list
             for kleur in kleuren:
                 for getallen in getal:
 
-                    self.alle_kaarten.append(kaart(kleur, getallen))
+                    self.deck.append(Kaart(kleur, getallen))
 
         def __str__(self):
             deck_sam = ''
@@ -44,22 +42,22 @@ def blackjack():
 
             # shuffle de kaarten
 
-        def schudden(self):
-            random.shuffle(self.alle_kaarten)
+        def shuffle(self):
+            random.shuffle(self.deck)
 
         def delen(self):
-            enkele_kaart = self.alle_kaarten.pop()
+            enkele_kaart = self.deck.pop()
             return enkele_kaart
 
     # hand
     class Hand:
         def __init__(self):
-            self.kaart = []
+            self.kaarten = []
             self.waarde = 0
             self.aas = 0
 
         def voeg_kaart_toe(self, kaart):
-            self.kaart.append(kaart)
+            self.kaarten.append(kaart)
             self.waarde += waarden[kaart.getallen]
             if kaart.getallen == 'Aas':
                 self.aas += 1
@@ -75,8 +73,8 @@ def blackjack():
 
     class Chips:
 
-        def __init__(self, totaal=100):
-            self.totaal = totaal
+        def __init__(self):
+            self.totaal = 100
             self.wedden = 0
 
         def win_weddenschap(self):
@@ -90,8 +88,9 @@ def blackjack():
         while True:
 
             try:
-                chips.weddenschap = int(input("Hoeveel euro wil je inzetten?"))
-            except:
+                chips.weddenschap = int(
+                    input("Hoeveel chips wil je inzetten? (je start met 100)  "))
+            except ValueError:
                 print("Je moet wel een heel getal invoeren.")
             else:
                 if chips.weddenschap > chips.totaal:
@@ -103,23 +102,22 @@ def blackjack():
     # hit
     def hit(deck, hand):
 
-        enkele_kaart = deck.delen()
-        hand.voeg_kaart_toe(enkele_kaart)
+        hand.voeg_kaart_toe(deck.delen())
         hand.aanpassing_voor_aas()
 
     def hit_of_stoppen(deck, hand):
-        global spelen
+        global playing
 
         while True:
             x = input(
-                'Doorgaan of stoppen? Klik op h om door te gaan of s om te stoppen')
+                'Doorgaan of stoppen? Klik op "h" om door te gaan of "s" om te stoppen  ')
 
             if x[0].lower() == 'h':
                 hit(deck, hand)
 
             elif x[0].lower() == 's':
                 print('De speler stopt, het is de nu de dealers beurt.')
-                playing == False
+                playing = False
 
             else:
                 print('Sorry, je hebt geen correcte optie gekozen, probeer het opnieuw.')
@@ -130,24 +128,24 @@ def blackjack():
 
     def laat_sommige_zien(dealer, speler):
 
-        print("\n Dealers hand:")
+        print("\nDealers hand:")
         print("Eerste kaart is verborgen")
-        print(dealer.kaart[1])
+        print(dealer.kaarten[1])
 
         # alle kaarten
-        print("\n Spelers hand:")
-        for kaart in speler.kaart:
+        print("\nSpelers hand:")
+        for kaart in speler.kaarten:
             print(kaart)
 
     def laat_alles_zien(dealer, speler):
 
         print("\n Dealers hand:")
-        for kaart in speler.kaart:
+        for kaart in speler.kaarten:
             print(kaart)
         print('Dealers hand: {dealer.waarde}')
 
         print("\n Spelers hand:")
-        for kaart in speler.kaart:
+        for kaart in speler.kaarten:
             print(kaart)
         print('Spelers hand: {speler.waarde}')
 
@@ -173,11 +171,12 @@ def blackjack():
         print('Het is een gelijkspel, dus een Push. Je krijgt je inzet terug.')
 
     while True:
-        print('Welkom bij Blackjack')
+        print('Welkom bij Blackjack! Kom zo dicht mogelijk bij de 21 zonder eroverheen te gaan!\n\
+    Dealer gaat door tot ze 17 bereikt. Azen tellen als 1 of 11.')
 
         # hand
         deck = Deck()
-        deck.schudden()
+        deck.shuffle()
 
         speler_hand = Hand()
         speler_hand.voeg_kaart_toe(deck.delen())
@@ -206,7 +205,6 @@ def blackjack():
             # bust speler
             if speler_hand.waarde > 21:
                 speler_bust(speler_hand, dealer_hand, spelers_chips)
-
                 break
 
         # speler bust niet, dealer speelt
@@ -230,16 +228,17 @@ def blackjack():
 
                 # informeren nieuwe chips
 
-                print('\n Je chipaantal is: {}'.format(spelers_chips.totaal))
+        print('\nJe chipaantal is: {}'.format(spelers_chips.totaal))
 
-                nieuw_spel = input('Wil je nog een keer spelen?')
+        nieuw_spel = input(
+            'Wil je nog een keer spelen? (y om nog een keer te spelen')
 
-                if nieuw_spel[0].lower() == 'ja':
-                    playing = True
-                    continue
-                else:
-                    ("Bedankt voor het spelen!")
-                    break
+        if nieuw_spel[0].lower() == 'y':
+            playing = True
+            continue
+        else:
+            ("Bedankt voor het spelen!")
+            break
 
 
 blackjack()
