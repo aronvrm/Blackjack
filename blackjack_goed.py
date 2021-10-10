@@ -87,7 +87,6 @@ def blackjack():
                     break
 
     def hit(deck, hand):
-
         hand.add_card(deck.deal())
         hand.adjust_for_ace()
 
@@ -111,13 +110,13 @@ def blackjack():
             break
 
     def show_some(player, dealer):
-        print("\nDealers hand:")
+        print("\nDealer's hand:")
         print("(Verborgen kaart)")
         print('', dealer.cards[1])
-        print("\nSpelers hand:", *player.cards, sep='\n ')
+        print("\nSpelers hand::", *player.cards, sep='\n ')
 
     def show_all(player, dealer):
-        print("\nDealers hand:", *dealer.cards, sep='\n ')
+        print("\nDealer's hand:", *dealer.cards, sep='\n ')
         print("Dealer's hand =", dealer.value)
         print("\nSpelers hand:", *player.cards, sep='\n ')
         print("Spelers hand =", player.value)
@@ -175,7 +174,22 @@ def blackjack():
             show_some(player_hand, dealer_hand)
 
             # If player's hand exceeds 21, run player_busts() and break out of loop
-            if player_hand.value > 21:
+            if player_hand.value < 21:
+                hit_or_stand(deck, player_hand)
+
+            elif player_hand.value < 21:
+                hit_or_stand(deck, player_hand)
+
+            elif player_hand.value < 21:
+                hit_or_stand(deck, player_hand)
+
+            elif player_hand.value < 21:
+                hit_or_stand(deck, player_hand)
+
+            elif player_hand.value < 21:
+                hit_or_stand(deck, player_hand)
+
+            elif player_hand.value > 21:
                 player_busts(player_hand, dealer_hand, player_chips)
                 break
 
@@ -184,7 +198,6 @@ def blackjack():
             if player_hand.value <= 21:
 
                 while dealer_hand.value < 17:
-                    hit(deck, dealer_hand)
                     hit(deck, dealer_hand)
 
                 # Show all cards
