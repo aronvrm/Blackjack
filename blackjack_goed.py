@@ -91,14 +91,14 @@ def blackjack():
         hand.adjust_for_ace()
 
     def hit_or_stand(deck, hand):
-        global playing  # to control an upcoming while loop
+        global playing
 
         while True:
             x = input(
                 "Doorgaan of stoppen? Klik op h om door te gaan of s om te stoppen  ")
 
             if x[0].lower() == 'h':
-                hit(deck, hand)  # hit() function defined above
+                hit(deck, hand)
 
             elif x[0].lower() == 's':
                 print("De speler stopt, het is de nu de dealers beurt.")

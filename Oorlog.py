@@ -86,15 +86,17 @@ def game():
     while game_on:
 
         round_num += 1
-        print(f"Round {round_num}")
+        print(f"Ronde {round_num}")
 
         if len(player_one.all_cards) == 0:
             print('Speler 1, heeft geen kaarten meer! Speler 2 wint!')
+            time.sleep(60)
             game_on = False
             break
 
         if len(player_two.all_cards) == 0:
             print('Speler 2, heeft geen kaarten meer! Speler 1 wint!')
+            time.sleep(60)
             game_on = False
             break
 
@@ -125,12 +127,13 @@ def game():
                 at_war = False
 
             else:
-                print('WAR!')
+                print('OORLOG!')
 
                 if len(player_one.all_cards) < 5:
                     print(
                         "Speler 1 heeft niet genoeg kaarten meer om de oorlog te verklaren!")
                     print("Speler 2 wint!")
+                    time.sleep(60)
                     game_on = False
                     break
 
@@ -138,6 +141,7 @@ def game():
                     print(
                         "Speler 2 heeft niet genoeg kaarten meer om de oorlog te verklaren!")
                     print("Speler 1 wint!")
+                    time.sleep(60)
                     game_on = False
                     break
 
@@ -145,6 +149,8 @@ def game():
                     for num in range(5):
                         player_one_cards.append(player_one.remove_one())
                         player_two_cards.append(player_two.remove_one())
+
+        time.sleep(0.2)
 
 
 game()
