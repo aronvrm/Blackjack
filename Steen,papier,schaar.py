@@ -37,7 +37,7 @@ def rps():
             opnieuw_spelen()
 
         elif player == ('steen') and computer == ('steen'):
-            print('Het is een gelijkspel!')
+            print('Het is een gelijkspel, de computer had ook steen!')
             opnieuw_spelen()
 
         elif player == ('steen') and computer == ('schaar'):
@@ -50,7 +50,7 @@ def rps():
             opnieuw_spelen()
 
         elif player == ('papier') and computer == ('papier'):
-            print('Het is een gelijkspel!')
+            print('Het is een gelijkspel, de computer had ook papier!')
             opnieuw_spelen()
 
         elif player == ('papier') and computer == ('schaar'):
@@ -63,7 +63,7 @@ def rps():
             opnieuw_spelen()
 
         elif player == ('schaar') and computer == ('schaar'):
-            print('Het is een gelijkspel!')
+            print('Het is een gelijkspel, de computer had ook schaar!')
             opnieuw_spelen()
 
         elif player == ('schaar') and computer == ('papier'):
