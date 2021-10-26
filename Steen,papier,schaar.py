@@ -7,6 +7,21 @@ import time
 # importeer de module met de naam random
 
 
+def opnieuw_spelen():
+
+    while True:
+        spelen = input(
+            "wil je nog een keer spelen? (type ja als je nog een keer wil) ")
+        spelen = spelen.lower()
+        if spelen == ('ja'):
+            rps()
+
+        else:
+            print('Bedankt voor het spelen, het spel sluit zich over 5 seconden af.')
+            time.sleep(5)
+            exit()
+
+
 def rps():
 
     print('\nWe gaan vandaag steen, papier,schaar spelen tegen de computer!')
@@ -14,20 +29,6 @@ def rps():
     computer = random.choice(['steen', 'papier', 'schaar'])
 
     player = input("\nKies je wapen (steen, papier of schaar):")
-
-    def opnieuw_spelen():
-
-        while True:
-            spelen = input(
-                "wil je nog een keer spelen? (type ja als je nog een keer wil) ")
-            spelen = spelen.lower()
-            if spelen == ('ja'):
-                rps()
-
-            else:
-                print('Bedankt voor het spelen, het spel sluit zich over 5 seconden af.')
-                time.sleep(5)
-                exit()
 
     while True:
 
