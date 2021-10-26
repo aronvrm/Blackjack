@@ -9,7 +9,7 @@ t.ht()
 window = turtle.Screen()
 
 
-t.speed(200)
+t.speed(0)
 t.pen(fillcolor="black", pencolor="black", pensize=1)
 t.color('red')
 
