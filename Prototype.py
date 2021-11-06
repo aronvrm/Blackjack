@@ -15,25 +15,23 @@ def type(text, delay=1/KPS):
             sleep(delay)
 
 
-def opening():
-    # Vragen om naam
-    type("Welkom wereldveranderaar!")
-    username = input("\nWat is je naam? ")
+# Vragen om naam
+type("Welkom wereldveranderaar!")
+username = input("\nWat is je naam? ")
 
-    # Opening van het verhaal
-    print("Hoi", username, "leuk dat je deelneemt aan dit duurzame avontuur!")
-    type("Het is de 21e eeuw. De wereld bevindt zich momenteel in een klimaatcrisis.")
-    type("In dit verhaal gaan we je meenemen in een duurzaam alternatief voor jou pakketje.")
-    type("Namelijk crowd logistics! ")
-    type("Als jij deelneemt aan crowd logistics ga jij een pakketje bezorgen terwijl je al onderweg bent.")
-    type("En dat zonder veel extra om te hoeven rijden.")
-    type("Op deze manier hoeven er minder pakketbusjes te rijden, wat beter is voor de doorstroming en het mileu.")
+# Opening van het verhaal
+print("Hoi", username, "leuk dat je deelneemt aan dit duurzame avontuur!")
+type("Het is de 21e eeuw. De wereld bevindt zich momenteel in een klimaatcrisis.")
+type("In dit verhaal gaan we je meenemen in een duurzaam alternatief voor jou pakketje.")
+type("Namelijk crowd logistics! ")
+type("Als jij deelneemt aan crowd logistics ga jij een pakketje bezorgen terwijl je al onderweg bent.")
+type("En dat zonder veel extra om te hoeven rijden.")
+type("Op deze manier hoeven er minder pakketbusjes te rijden, wat beter is voor de doorstroming en het mileu.")
+
+keuze1 = True
 
 
-keuze1 = -True
 # Hier ga je verder als je een beloning nodig hebt
-
-
 def beloning():
     type("Je scrolt over je Facebook tijdlijn en je ziet een advertentie voorbijkomen van Crowd to door.")
     type("Crowd to door is een online crowd logistics platform.")
@@ -59,32 +57,37 @@ def intrinsiek():
     type("In dit verhaal ga voor jou pakketje.")
 
 
-def einde():
+def einde_eerder():
     type("Wat tof dat je hebt deelgenomen aan crowd logistics!")
     type("Ondanks dat je bent afgehaakt willen je toch nog wat informatie meegeven rondom crowd logistics.")
-    print("\nDeze informatie wordt nu voor je geopend",
-          webbrowser.open('https://vil.be/en/project/crowd-logistics/'))
+    type("Daarom openen we nu een crowd logistics platform voor je, we raden je aan om toch even een kijkje te nemen!")
+    type("Deze informatie wordt nu voor je geopend")
+    webbrowser.open('https://www.piggybee.com/nl/')
 
 
 # Keuze beloning of intrinsieke motivatie
-while keuze1 == True:
+while keuze1:
     keuze1 = input(
         "\nNu zijn wij heel benieuwd! Heb jij een vorm van beloning nodig om deel te nemem aan dit soort duurzame alternatieven? ")
     if keuze1 == 'ja':
         beloning()
+        break
     elif keuze1 == 'nee':
         intrinsiek()
+        break
     else:
         type("dat is geen geldige keuze! je moet ja of nee kiezen")
         keuze1
 
-
+# Keuze om pakketje te bezorgen of niet.
 while keuze2:
-    keuze2 = input("Nu is de vraag, ga jij het pakketje bezorgen? ")
+    keuze2 = input("\nNu is de vraag, ga jij het pakketje bezorgen? ")
     if keuze2 == "ja":
         beloning_2()
+        break
     if keuze2 == "nee":
-        einde()
+        einde_eerder()
+        break
     else:
         type("dat is geen geldige keuze! je moet ja of nee kiezen")
         keuze2
