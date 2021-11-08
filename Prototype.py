@@ -12,14 +12,16 @@ import webbrowser
 # typewriter effect
 KPS = 15  # Aantal karakters per seconden
 
+# Dit effect zorgt ervoor dat er een typewriter effect ontstaat
 
-def type(text, delay=1/KPS):
-    for line in text.splitlines():
-        interval = len(line) + 1
-        print('')
-        for i in chain(range(interval)):
-            print('\r' + line[:i], end="", flush=True)
-            sleep(delay)
+
+def type(text, delay=1/KPS):  # text en berekening van de snelheid
+    for line in text.splitlines():  # for loop om nieuwe strings te splitten
+        interval = len(line)  # interval define
+        print('')  # print statement
+        for i in chain(range(interval)):  # nieuwe for loop voor toepassing f
+            print(line[:i], end="")
+            sleep(delay)  # toepassing van de snelheid
 
 
 # Keuze om pakketje te bezorgen of niet. (Beloning)
@@ -146,10 +148,11 @@ def beloning_2():
 keuze2_einde = True
 
 
-# Dit was het verhaal op basis van beloning
+# Dit was het verhaal op basis van een beloning
+# ________________________________________________________
 
 
-# Dit is wanneer het verhaal eindigt
+# Dit is wanneer het verhaal eindigt als je het volledige verhaal doorloopt
 
 def einde():
     type("Wat tof dat je wil blijven deelnemen aan crowd logistics! ")
@@ -161,6 +164,7 @@ def einde():
     quit()
 
 
+# Dit is wanneer het verhaal eindigt als je NIET het volledige verhaal doorloopt
 def einde_eerder():
     type("Wat tof dat je hebt deelgenomen aan crowd logistics, ontzettend bedankt!")
     type("We willen je heel graag nog wat meer informatie meegeven rondom crowd logistics.")
