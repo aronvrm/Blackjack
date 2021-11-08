@@ -17,10 +17,10 @@ KPS = 15  # Aantal karakters per seconden
 
 def type(text, delay=1/KPS):  # text en berekening van de snelheid
     for line in text.splitlines():  # for loop om nieuwe strings te splitten
-        interval = len(line)  # interval define
+        interval = len(line)+1  # interval define
         print('')  # print statement
-        for i in chain(range(interval)):  # nieuwe for loop voor toepassing f
-            print(line[:i], end="")
+        for i in chain(range(interval)):  # nieuwe for loop voor toepassing functie
+            print('\r' + line[:i], end="")  # print en slicing van de functie
             sleep(delay)  # toepassing van de snelheid
 
 
@@ -28,39 +28,35 @@ def type(text, delay=1/KPS):  # text en berekening van de snelheid
 
 
 def beloning_functie():
-    beloning_keuze = True
-    while beloning_keuze:
-        beloning_keuze = input(
-            "\nNu is de vraag, ga jij het pakketje bezorgen? (kies ja of nee) ").lower()
-        if beloning_keuze == "ja":
-            beloning_2()
-            break
 
-        elif beloning_keuze == "nee":
-            einde_eerder()
+    beloning_keuze = input(
+        "\nNu is de vraag, ga jij het pakketje bezorgen? (kies ja of nee) ").lower()
+    if beloning_keuze == "ja":
+        beloning_2()
 
-        else:
-            type("dat is geen geldige keuze! je moet ja of nee kiezen")
-            beloning_keuze
+    elif beloning_keuze == "nee":
+        einde_eerder()
+
+    else:
+        type("dat is geen geldige keuze! je moet ja of nee kiezen")
+        beloning_keuze
 
 # Keuze om het pakketje te bezorgen of niet. (Intrinsiek)
 
 
 def intris_functie():
-    intrisieke_keuze = True
-    while intrisieke_keuze:
-        intrisieke_keuze = input(
-            "\nNu is de vraag, ga jij het pakketje bezorgen? (kies ja of nee) ").lower()
-        if intrisieke_keuze == "ja":
-            intrisieke_vervolg()
-            break
 
-        elif intrisieke_keuze == "nee":
-            einde_eerder()
+    intrisieke_keuze = input(
+        "\nNu is de vraag, ga jij het pakketje bezorgen? (kies ja of nee) ").lower()
+    if intrisieke_keuze == "ja":
+        intrisieke_vervolg()
 
-        else:
-            type("dat is geen geldige keuze! je moet ja of nee kiezen")
-            intrisieke_keuze
+    elif intrisieke_keuze == "nee":
+        einde_eerder()
+
+    else:
+        type("dat is geen geldige keuze! je moet ja of nee kiezen")
+        intrisieke_keuze
 
 
 # Vragen om naam
